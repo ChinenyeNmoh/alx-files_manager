@@ -13,10 +13,8 @@ const getConnect = async (req, res) => {
     const base64Credentials = Authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
     const email = credentials.split(':')[0];
-    console.log(email)
     const password = credentials.split(':')[1];
     const hashpass = sha1(password);
-    console.log(hashpass)
     try {
         const findUser = await dbClient.db.collection('users').findOne({ email: email, password: hashpass });
         if (!findUser) {
@@ -27,7 +25,7 @@ const getConnect = async (req, res) => {
 
             const token = v4();
             const key = `auth_${token}`;
-            redisClient.set(key, findUser._id.toString(), 86400);
+            redisClient.set(key, 86400, findUser._id.toString());
             return res.status(200).json({
                 token: token
             });
@@ -49,7 +47,6 @@ const getDisconnect = async (req, res) => {
     }
     try {
         const userId = await redisClient.get(`auth_${token}`);
-        console.log(userId);
         if (!userId) {
             return res.status(401).json({
                 error: 'Unauthorized'

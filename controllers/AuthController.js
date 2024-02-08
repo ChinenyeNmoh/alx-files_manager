@@ -25,7 +25,7 @@ const getConnect = async (req, res) => {
 
             const token = v4();
             const key = `auth_${token}`;
-            redisClient.set(key, 86400, findUser._id.toString());
+            redisClient.set(key, findUser._id.toString(), 86400);
             return res.status(200).json({
                 token: token
             });

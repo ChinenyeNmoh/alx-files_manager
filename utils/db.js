@@ -7,18 +7,21 @@ const url = `mongodb://${DB_HOST}:${DB_PORT}/${DB_DATABASE}`;
 
 class DBClient {
   constructor() {
-    MongoClient.connect(url, { useUnifiedTopology: true }, (err, client) => {
-      if (!err) {
-        this.db = client.db(DB_DATABASE);
-      } else {
-        console.error('Error connecting to MongoDB:', err);
-        this.db = false;
-      }
-    });
+    this.connect();
+  }
+
+  async connect() {
+    try {
+      const client = await MongoClient.connect(url, { useUnifiedTopology: true });
+      this.db = client.db(DB_DATABASE);
+    } catch (err) {
+      console.error('Error connecting to MongoDB:', err);
+      this.db = false;
+    }
   }
 
   isAlive() {
-    return this.db? true : false;
+    return this.db !== false;
   }
 
   async nbUsers() {

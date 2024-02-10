@@ -8,7 +8,7 @@ const dbClient = require('../utils/db').default;
 
 const postUpload = async (req, res) => {
   const fileQueue = new Bull('fileQueue');
-  const token = req.header('X-Token');
+  const token = req.header('X-Token') || null;
   if (!token) {
     return res.status(401).json({
       error: 'Unauthorized',
@@ -123,7 +123,7 @@ const postUpload = async (req, res) => {
 // Get users file
 const getShow = async (req, res) => {
   const fileId = req.params.id || '';
-  const token = req.header('X-Token');
+  const token = req.header('X-Token') || null;
   if (!token) {
     return res.status(401).json({
       error: 'Unauthorized',
@@ -168,7 +168,7 @@ const getShow = async (req, res) => {
 const getIndex = async (req, res) => {
   const parentId = req.query.parentId || 0;
   const pagination = parseInt(req.query.page, 10) || 0;
-  const token = req.header('X-Token');
+  const token = req.header('X-Token') || null;
   if (!token) {
     return res.status(401).json({
       error: 'Unauthorized',
@@ -214,7 +214,7 @@ const getIndex = async (req, res) => {
 };
 
 const putPublish = async (req, res) => {
-  const token = req.header('X-Token');
+  const token = req.header('X-Token') || null;
   const fileId = req.params.id || '';
   if (!token) {
     return res.status(401).json({
@@ -262,7 +262,7 @@ const putPublish = async (req, res) => {
 };
 
 const putUnPublish = async (req, res) => {
-  const token = req.header('X-Token');
+  const token = req.header('X-Token') || null;
   const fileId = req.params.id || '';
   if (!token) {
     return res.status(401).json({

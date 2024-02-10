@@ -53,12 +53,12 @@ const postUpload = async (req, res) => {
     if (parentId) {
       const findParent = await dbClient.db.collection('files').findOne({ _id: ObjectId(parentId) });
       if (!findParent) {
-        return res.status(400).json({
+        return res.status(401).json({
           error: 'Unauthorized',
         });
       }
       if (findParent && findParent.type !== 'folder') {
-        return res.status(401).json({
+        return res.status(400).json({
           error: 'Parent is not a folder',
         });
       }

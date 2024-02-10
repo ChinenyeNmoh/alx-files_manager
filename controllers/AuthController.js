@@ -42,7 +42,7 @@ const getConnect = async (req, res) => {
 
 // logout
 const getDisconnect = async (req, res) => {
-  const token = req.header('X-Token');
+  const token = req.header('X-Token') || null;
   if (!token) {
     return res.status(401).json({
       error: 'Unauthorized',

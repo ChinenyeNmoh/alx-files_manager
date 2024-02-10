@@ -59,7 +59,7 @@ const getMe = async (req, res) => {
         error: 'Unauthorized',
       });
     }
-    return res.status(201).json({
+    return res.status(200).json({
       id: findUser._id,
       email: findUser.email,
     });

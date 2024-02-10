@@ -4,7 +4,7 @@ const redisClient = require('../utils/redis').default;
 const dbClient = require('../utils/db').default;
 
 const getConnect = async (req, res) => {
-  const Authorization = req.header('Authorization');
+  const Authorization = req.header('Authorization') || null;
   if (!Authorization) {
     return res.status(401).json({
       error: 'Unauthorized',
@@ -14,6 +14,11 @@ const getConnect = async (req, res) => {
   const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
   const email = credentials.split(':')[0];
   const password = credentials.split(':')[1];
+  if(!email || !password){
+    return res.status(401).json({
+        error: 'Unauthorized',
+      });
+  }
   const hashpass = sha1(password);
   try {
     const findUser = await dbClient.db.collection('users').findOne({ email, password: hashpass });

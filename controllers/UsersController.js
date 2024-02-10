@@ -59,9 +59,10 @@ const getMe = async (req, res) => {
         error: 'Unauthorized',
       });
     }
-    // Retrieve the inserted user document with only the email and _id fields
-    const insertedUser = await dbClient.db.collection('users').findOne({ _id: findUser._id }, { projection: { email: 1, _id: 1 } });
-    return res.status(200).json(insertedUser);
+    return res.status(201).json({
+      id: findUser._id,
+      email: findUser.email,
+    });
   } catch (err) {
     return res.status(500).json({
       error: err.message,

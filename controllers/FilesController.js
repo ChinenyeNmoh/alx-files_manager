@@ -323,8 +323,8 @@ const getFile = async (req, res) => {
     let owner = false;
     const userId = await redisClient.get(`auth_${token}`);
     const findUser = await dbClient.db.collection('users').findOne({ _id: ObjectId(userId) });
-    if (findUser) {
-      owner = findUser._id.toString() === findFile.userId.toString();
+    if(findUser){
+      owner = findUser._id.toString() !== findFile.userId.toString()
     }
     if (findFile.isPublic === false && !owner) {
       return res.status(404).json({

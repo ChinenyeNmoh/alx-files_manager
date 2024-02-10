@@ -14,10 +14,10 @@ const getConnect = async (req, res) => {
   const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
   const email = credentials.split(':')[0];
   const password = credentials.split(':')[1];
-  if(!email || !password){
+  if (!email || !password) {
     return res.status(401).json({
-        error: 'Unauthorized',
-      });
+      error: 'Unauthorized',
+    });
   }
   const hashpass = sha1(password);
   try {

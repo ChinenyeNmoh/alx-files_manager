@@ -50,11 +50,11 @@ const postUpload = async (req, res) => {
         error: 'Missing data',
       });
     }
-    if (parentId) {
+    if (parentId !== 0) {
       const findParent = await dbClient.db.collection('files').findOne({ _id: ObjectId(parentId) });
       if (!findParent) {
-        return res.status(401).json({
-          error: 'Unauthorized',
+        return res.status(400).json({
+          error: 'Parent not found',
         });
       }
       if (findParent && findParent.type !== 'folder') {

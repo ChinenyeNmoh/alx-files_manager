@@ -156,7 +156,7 @@ const getShow = async (req, res) => {
       isPublic: findFile.isPublic,
       parentId: findFile.parentId,
     };
-    return res.status(200).json(result);
+    return res.json(result);
   } catch (err) {
     return res.status(500).json({
       error: err.message,
@@ -205,7 +205,7 @@ const getIndex = async (req, res) => {
       };
       filesArray.push(fileItem);
     });
-    return res.status(200).json(filesArray);
+    return res.json(filesArray);
   } catch (err) {
     return res.status(500).json({
       error: err.message,

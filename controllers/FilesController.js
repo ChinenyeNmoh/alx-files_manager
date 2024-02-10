@@ -333,7 +333,7 @@ const getFile = async (req, res) => {
     }
     if (findFile.type === 'folder') {
       return res.status(400).json({
-        error: "A folder doesn't have content",
+        error: 'A folder doesn\'t have content',
       });
     }
     if (!findFile.localPath) {
@@ -342,11 +342,10 @@ const getFile = async (req, res) => {
       });
     }
     const fileLocation = size === 0 ? findFile.localPath : `${findFile.localPath}_${size}`;
-    const fileType = mimeTypes.lookup(findFile.name);
-    res.set('Content-Type', fileType);
     const result = fs.readFileSync(fileLocation, 'utf-8');
-
-    return res.status(200).json(result);
+    const fileType = mimeTypes.contentType(findFile.name);
+    res.set('Content-Type', fileType);
+    return res.send(result);
   } catch (err) {
     return res.status(500).json({
       error: err.message,

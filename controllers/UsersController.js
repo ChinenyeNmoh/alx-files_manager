@@ -28,9 +28,10 @@ const postNew = async (req, res) => {
       password: hashedPassword,
     };
     const newUser = await dbClient.db.collection('users').insertOne(newBody);
-    // Retrieve the inserted user document with only the email and _id fields
-    const insertedUser = await dbClient.db.collection('users').findOne({ _id: newUser.insertedId }, { projection: { email: 1, _id: 1 } });
-    return res.status(201).json(insertedUser);
+    return res.status(201).json({
+      id: newUser.insertedId,
+      email,
+    });
   } catch (err) {
     return res.status(500).json({
       error: err.message,

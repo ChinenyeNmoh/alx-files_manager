@@ -167,7 +167,7 @@ const getShow = async (req, res) => {
 // Get all files
 const getIndex = async (req, res) => {
   const parentId = req.query.parentId || 0;
-  const pagination = parseInt(req.query.page, 10) || 0;
+  const pagination = req.query.page || 0;
   const token = req.header('X-Token') || null;
   if (!token) {
     return res.status(401).json({
